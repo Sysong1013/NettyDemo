@@ -28,10 +28,11 @@ public class TimeClientHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object mes) throws Exception {   //服务器返回消息时被调用
-        ByteBuf buf = (ByteBuf) mes;
-        byte[] req = new byte[buf.readableBytes()];
-        buf.readBytes(req);
-        String body = new String(req, "UTF-8");
+//        ByteBuf buf = (ByteBuf) mes;
+//        byte[] req = new byte[buf.readableBytes()];
+//        buf.readBytes(req);
+//        String body = new String(req, "UTF-8");
+        String body = (String) mes;
         System.out.println("Now is : " + body + " ; the counter is : " + ++counter);
     }
 

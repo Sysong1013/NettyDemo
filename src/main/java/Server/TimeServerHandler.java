@@ -13,10 +13,11 @@ public class TimeServerHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf buf = (ByteBuf) msg;
-        byte[] req = new byte[buf.readableBytes()];   //获取缓冲区可读的字节数，根据可读的字节数创建byte数组
-        buf.readBytes(req);   //将缓冲区的字节数组复制到新建的byte数组中
-        String body = new String(req, "UTF-8").substring(0, req.length - System.getProperty("line.separator").length());   //获取请求消息
+//        ByteBuf buf = (ByteBuf) msg;
+//        byte[] req = new byte[buf.readableBytes()];   //获取缓冲区可读的字节数，根据可读的字节数创建byte数组
+//        buf.readBytes(req);   //将缓冲区的字节数组复制到新建的byte数组中
+//        String body = new String(req, "UTF-8").substring(0, req.length - System.getProperty("line.separator").length());   //获取请求消息
+        String body =(String)msg;
         System.out.println("TimeServer Receive order : " + body + " ; the counter is : " + ++counter);
         String time = "QUERY TIME ORDER".equalsIgnoreCase(body) ? new java.util.Date(System.currentTimeMillis()).toString() : "BAD ORDER";
         time = time + System.getProperty("line.separator");
