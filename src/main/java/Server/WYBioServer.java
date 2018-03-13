@@ -3,16 +3,19 @@ package Server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * BIO服务端源码
  */
-public final class BioServer {
+public final class WYBioServer {
     //默认的端口号
     private static int DEFAULT_PORT = 8081;
     //单例的ServerSocket
     private static ServerSocket server;
-
+    //线程池 饿汉式的单例
+    private static ExecutorService executorService = Executors.newFixedThreadPool(60);
     //根据传入参数设置监听端口，如果没有参数调用以下方法并使用默认值
     public static void start() throws IOException {
         //使用默认值
@@ -29,7 +32,7 @@ public final class BioServer {
             while (true) {
                 Socket socket = server.accept();
                 //当有新的客户端接入时，会创建一个新的线程处理这条Socket链路
-                new Thread(new BioServerHandler(socket)).start();
+                executorService.execute(new BioServerHandler(socket));
             }
         } finally {
             //一些必要的清理工作
@@ -43,7 +46,7 @@ public final class BioServer {
 
     public static void main(String[] args) {
         try {
-            BioServer.start();
+            WYBioServer.start();
         } catch (Exception e) {
             System.out.println("服务器启动异常");
         }
